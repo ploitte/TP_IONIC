@@ -25,7 +25,7 @@ class bddManager{
     }
 
     public function checkEmailExist(User $user){
-        $pdo = $this -> connexion -> prepare("SELECT email FROM user WHERE username = ?");
+        $pdo = $this -> connexion -> prepare("SELECT email FROM user WHERE email = ?");
         $pdo -> execute(array($user -> getEmail()));
         return $pdo -> rowCount();
     }
@@ -33,7 +33,7 @@ class bddManager{
     //SERVICE INSCRIPTION
 
     public function checkUserPass(User $user){
-        $pdo = $this -> connexion -> prepare("SELECT name FROM vendeur WHERE username=:username AND password=:password");
+        $pdo = $this -> connexion -> prepare("SELECT username FROM user WHERE username=:username AND password=:password");
         $pdo -> execute(array(
             "username" => $user -> getUsername(),
             "password" => $user -> getPassword()
@@ -49,6 +49,12 @@ class bddManager{
             "password" => $user -> getPassword()
         ));
         return $pdo -> rowCount();
+    }
+
+    public function getUserByName(User $user){
+        $pdo = $this -> connexion -> prepare("SELECT * FROM user WHERE username = ?");
+        $pdo -> execute(array($user -> getusername()));
+        return $pdo -> fetchAll(PDO::FETCH_ASSOC);
     }
 
 

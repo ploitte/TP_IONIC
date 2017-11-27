@@ -1,5 +1,6 @@
 <?php 
 use \Firebase\JWT\JWT;
+session_start();
 
 //Autorise certains sites (ici tous) à faire des requêtes cross domain
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -55,6 +56,36 @@ Flight::route("POST /api/inscription", function(){
     ];
 
     echo json_encode($result);
+});
+
+Flight::route("POST /api/connexion", function(){
+
+    $postEncode = file_get_contents('php://input');
+    $post = json_decode($postEncode, true);
+
+    // $post = $_POST;
+
+    $bdd = new bddManager();
+    $user = new User();
+    $service = new ServiceCo();
+    $service -> setParams($post);
+
+    if($service -> controls() === true){
+        $user -> setUsername($post["username"]);
+        $success = $user ->getUserByName($bdd);
+        $error = "nada";
+    }else{
+        $success ="bad";
+        $error = $service -> getError();
+    }
+
+    $result = [
+        "success" => $success,
+        "error" => $error
+    ];
+
+    echo json_encode($result);
+
 });
 
 Flight::start();

@@ -6,6 +6,7 @@ class User extends Model{
     private $username;
     private $email;
 	private $password;
+	private $verifPassword;
 
 	public function getUsername(){
 		return $this->username;
@@ -31,13 +32,23 @@ class User extends Model{
 		$this->password = $password;
 	}
 
+	public function getVerifPassword(){
+		return $this->verifPassword;
+	}
+
+	public function setVerifPassword($verifPassword){
+		$this->verifPassword = $verifPassword;
+	}
+
+
 
     function jsonSerialize(){
         return [
             "id" => $this->id,
             "username" => $this->username ,
             "email" => $this->email,
-            "password" => $this ->password
+            "password" => $this ->password,
+			"verifPassword" => $this ->verifPassword
         ];
     }
 
@@ -55,5 +66,9 @@ class User extends Model{
 
 	public function addUser(bddManager $bdd){
 		return $bdd -> addUser($this);
+	}
+
+	public function getUserByName(bddManager $bdd){
+		return $bdd -> getUserByName($this);
 	}
 }

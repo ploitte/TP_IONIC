@@ -11,14 +11,14 @@ class ServiceIns extends Service{
             $user -> setUsername($this -> params["username"]);
             $user -> setPassword($this -> params["password"]);
             $user -> setEmail($this -> params["email"]);
-            $user -> setEmail($this -> params["verifPassword"]);
+            $user -> setVerifPassword($this -> params["verifPassword"]);
 
 
 
             if($user -> checkUserExist($bdd) == 1){
-                $this -> saveError("vendeurExist", "USername déjà utilisé");
+                $this -> saveError("vendeurExist", "Username déjà utilisé");
             }
-
+                
             if($user -> checkEmailExist($bdd) == 1){
                 $this -> saveError("emailExist", "Email déjà utilisé"); 
             }

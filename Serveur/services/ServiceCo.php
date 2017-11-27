@@ -4,8 +4,11 @@ class ServiceCo extends Service{
 
     
     public function controls(){
-
         $bdd = new bddManager();
+        $user = new User();
+        $test = $user -> setUsername($this -> params["username"]);
+        $user -> setPassword($this -> params["password"]);
+
 
         if(empty($this -> params["username"])){
             $this -> saveError("emptyUsername", "Username manquant");
@@ -14,11 +17,7 @@ class ServiceCo extends Service{
             $this -> saveError("emptyPass", "Password manquant");
         }
 
-        if( empty($this -> error) ){
-
-            $user = new User();
-            $user -> setUsername($this -> params["username"]);
-            $user -> setPassword($this -> params["password"]);
+        if(empty($this->error)){
             if($user -> checkUserPass($bdd) == 0){
                 $this -> saveError("userPass", "Username ou password incorrect");
             }
